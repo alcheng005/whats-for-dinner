@@ -1,5 +1,5 @@
 const mongoURI = '';
 
 module.exports = {
-  mongoURI
+  mongoURI,
 };

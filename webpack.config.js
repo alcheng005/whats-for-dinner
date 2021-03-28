@@ -1,13 +1,14 @@
 const path = require('path');
-const cleanWpPi = require('clean-webpack-plugin');
-const htmlWpPi = require('html-webpack-plugin');
-const miniCssExPi = require('mini-css-extract-plugin');
-const cssMiniWpPi = require('css-minimizer-webpack-plugin');
+const CleanWpPi = require('clean-webpack-plugin');
+const HtmlWpPi = require('html-webpack-plugin');
+const MiniCssExPi = require('mini-css-extract-plugin');
+const CssMiniWpPi = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './client/index.js',
   output: {
-    // [contenthash] will be replaced with a hash that webpack generates based on the content of the code (useful for cache busting)
+    // [contenthash] will be replaced with a hash that webpack generates based on the content of the
+    //  code (useful for cache busting)
     filename: 'bundle.[contenthash].js',
     path: path.join(__dirname, 'build'),
     publicPath: '/',
@@ -24,19 +25,20 @@ module.exports = {
   mode: process.env.NODE_ENV,
   optimization: {
     minimizer: [
-      // for webpack@5 can use '...' to extend existing minimizers (i.e. `terser-webpack-plugin` for JS minification)
+      // for webpack@5 can use '...' to extend existing minimizers (i.e. `terser-webpack-plugin`
+      // for JS minification)
       '...',
-      new cssMiniWpPi()
-    ]
+      new CssMiniWpPi(),
+    ],
   },
   plugins: [
-    new cleanWpPi(),
-    new htmlWpPi({
-      template: './client/index.html'
+    new CleanWpPi(),
+    new HtmlWpPi({
+      template: './client/index.html',
     }),
-    new miniCssExPi({
-      filename: '[name].[contenthash].[ext]'
-    })
+    new MiniCssExPi({
+      filename: '[name].[contenthash].[ext]',
+    }),
   ],
   module: {
     rules: [
@@ -59,9 +61,9 @@ module.exports = {
         test: /\.(css|scss)$/,
         exclude: /node_modules/,
         use: [
-          process.env.NODE_ENV === 'production' ? miniCssExPi.loader : "style-loader",
+          process.env.NODE_ENV === 'production' ? MiniCssExPi.loader : 'style-loader',
           'css-loader',
-          'sass-loader'
+          'sass-loader',
         ],
       },
       // {
