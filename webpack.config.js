@@ -25,8 +25,8 @@ module.exports = {
   mode: process.env.NODE_ENV,
   optimization: {
     minimizer: [
-      // for webpack@5 can use '...' to extend existing minimizers (i.e. `terser-webpack-plugin`
-      // for JS minification)
+      // for webpack@5 can use '...' to extend existing minimizers (i.e. `terser-webpack-plugin` for
+      // JS minification)
       '...',
       new CssMiniWpPi(),
     ],
