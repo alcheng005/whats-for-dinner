@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const path = require('path');
 const express = require('express');
 
@@ -17,6 +18,11 @@ app.use(express.json());
 
 app.use('/build', express.static(path.join(__dirname, '../build')));
 
+// move into a router file
+app.get('/room/:roomId', (req, res) => {
+  res.status(200).sendFile(path.join(__dirname, '../client/index.html'));
+});
+
 app.get('/', (req, res) => {
   res.status(200).sendFile(path.join(__dirname, '../client/index.html'));
 });
@@ -35,10 +41,18 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
     ...err,
   };
 
-  console.log('Global Error Handler:', errorObj.log); // eslint-disable-line no-console
+  console.log('Global Error Handler:', errorObj.log);
   return res.status(errorObj.status).json(errorObj.message);
 });
 
 http.listen(PORT, () => {
-  console.log('Server is up on port:', PORT); // eslint-disable-line no-console
+  console.log('Server is up on port:', PORT);
+});
+
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  socket.on('disconnect', () => {
+    console.log('A user disconnected');
+  });
 });
