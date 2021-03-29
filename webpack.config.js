@@ -10,15 +10,12 @@ module.exports = {
     //  code (useful for cache busting)
     filename: 'bundle.js',
     path: path.join(__dirname, 'build'),
-    publicPath: '/',
   },
   devServer: {
     contentBase: path.join(__dirname, 'client'),
     hot: true,
-    // match the output's 'publicPath'
-    publicPath: '/',
     proxy: {
-      '/build': 'http://localhost:3000',
+      '/': 'http://localhost:3000',
     },
   },
   mode: process.env.NODE_ENV,
