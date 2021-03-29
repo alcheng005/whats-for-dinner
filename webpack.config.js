@@ -1,15 +1,14 @@
 const path = require('path');
-const CleanWpPi = require('clean-webpack-plugin');
-const HtmlWpPi = require('html-webpack-plugin');
-const MiniCssExPi = require('mini-css-extract-plugin');
-const CssMiniWpPi = require('css-minimizer-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   entry: './client/index.js',
   output: {
     // [contenthash] will be replaced with a hash that webpack generates based on the content of the
     //  code (useful for cache busting)
-    filename: 'bundle.[contenthash].js',
+    filename: 'bundle.js',
     path: path.join(__dirname, 'build'),
     publicPath: '/',
   },
@@ -19,7 +18,7 @@ module.exports = {
     // match the output's 'publicPath'
     publicPath: '/',
     proxy: {
-      '/': 'http://localhost:3000',
+      '/build': 'http://localhost:3000',
     },
   },
   mode: process.env.NODE_ENV,
@@ -28,18 +27,10 @@ module.exports = {
       // for webpack@5 can use '...' to extend existing minimizers (i.e. `terser-webpack-plugin` for
       // JS minification)
       '...',
-      new CssMiniWpPi(),
+      new CssMinimizerWebpackPlugin(),
     ],
   },
-  plugins: [
-    new CleanWpPi(),
-    new HtmlWpPi({
-      template: './client/index.html',
-    }),
-    new MiniCssExPi({
-      filename: '[name].[contenthash].[ext]',
-    }),
-  ],
+  plugins: [new HtmlWebpackPlugin(), new MiniCssExtractPlugin()],
   module: {
     rules: [
       {
@@ -61,7 +52,7 @@ module.exports = {
         test: /\.(css|scss)$/,
         exclude: /node_modules/,
         use: [
-          process.env.NODE_ENV === 'production' ? MiniCssExPi.loader : 'style-loader',
+          process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : 'style-loader',
           'css-loader',
           'sass-loader',
         ],
