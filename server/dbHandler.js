@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const { MongoURI } = require('../config.js');
+const { mongoURI } = require('../config.js');
 
 const mongod = new MongoMemoryServer();
 
@@ -19,7 +19,7 @@ module.exports.connect = async () => {
     const testDbURI = await mongod.getUri();
     activeURI = testDbURI;
   } else {
-    activeURI = MongoURI;
+    activeURI = mongoURI;
   }
 
   await mongoose.connect(activeURI, mongooseOpts);
