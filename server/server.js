@@ -1,12 +1,15 @@
 /* eslint-disable no-console */
 const path = require('path');
 const express = require('express');
+const webpack = require('webpack');
+const webpackDevMw = require('webpack-dev-middleware');
 
 const app = express();
 
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const dbHandler = require('./dbHandler.js');
+const webpackDevConfig = require('../webpack.dev.js');
 
 const PORT = '3000';
 
@@ -16,21 +19,29 @@ dbHandler.connect();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use('/build', express.static(path.join(__dirname, '../build')));
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../build')));
 
-// move into a router file
-app.get('/room/:roomId', (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, '../client/index.html'));
-});
+  // move into a router file
+  app.get('/room/:roomId', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, '../build/index.html'));
+  });
 
-app.get('/', (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, '../client/index.html'));
-});
+  app.get('/', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, '../build/index.html'));
+  });
 
-// catch-all route handler for requests to unknown routes
-app.use('*', (req, res) => {
-  res.status(307).redirect('/');
-});
+  // catch-all route handler for requests to unknown routes
+  app.use('*', (req, res) => {
+    res.status(302).sendFile(path.join(__dirname, '../build/index.html'));
+  });
+} else {
+  // move into a router file
+  app.get('/room/:roomId', webpackDevMw(webpack(webpackDevConfig)));
+
+  // catch-all route handler
+  app.use('*', webpackDevMw(webpack(webpackDevConfig)));
+}
 
 // global error handler
 app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
