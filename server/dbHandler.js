@@ -10,6 +10,8 @@ const mongod = new MongoMemoryServer();
  */
 module.exports.connect = async () => {
   const mongooseOpts = {
+    useCreateIndex: true,
+    useFindAndModify: false,
     useNewUrlParser: true,
     useUnifiedTopology: true,
   };
