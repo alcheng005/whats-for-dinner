@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 const path = require('path');
 const express = require('express');
-const webpack = require('webpack');
-const webpackDevMw = require('webpack-dev-middleware');
+const webpack = require('webpack'); // eslint-disable-line import/no-extraneous-dependencies
+const webpackDevMw = require('webpack-dev-middleware'); // eslint-disable-line import/no-extraneous-dependencies
 
 const app = express();
 
