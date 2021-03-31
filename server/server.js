@@ -8,7 +8,9 @@ const app = express();
 
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+
 const dbHandler = require('./dbHandler.js');
+const roomRouter = require('./routers/roomRouter.js');
 const webpackDevConfig = require('../webpack.dev.js');
 
 const PORT = '3000';
@@ -19,13 +21,10 @@ dbHandler.connect();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use('/room', roomRouter);
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../build')));
-
-  // move into a router file
-  app.get('/room/:roomId', (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, '../build/index.html'));
-  });
 
   app.get('/', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, '../build/index.html'));
@@ -33,12 +32,9 @@ if (process.env.NODE_ENV === 'production') {
 
   // catch-all route handler for requests to unknown routes
   app.use('*', (req, res) => {
-    res.status(302).sendFile(path.join(__dirname, '../build/index.html'));
+    res.status(301).sendFile(path.join(__dirname, '../build/index.html'));
   });
 } else {
-  // move into a router file
-  app.get('/room/:roomId', webpackDevMw(webpack(webpackDevConfig)));
-
   // catch-all route handler
   app.use('*', webpackDevMw(webpack(webpackDevConfig)));
 }
@@ -62,6 +58,10 @@ http.listen(PORT, () => {
 
 io.on('connection', (socket) => {
   console.log('A user connected');
+
+  socket.on('joinRoom', (data) => {
+    console.log(data);
+  });
 
   socket.on('disconnect', () => {
     console.log('A user disconnected');
