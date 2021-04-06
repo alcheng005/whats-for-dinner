@@ -18,7 +18,12 @@ roomController.createRoom = async (req, res, next) => {
       const roomInfo = await Room.findOneAndUpdate(
         { code: roomCode },
         { $set: { code: roomCode } },
-        { new: true, upsert: true, setDefaultsOnInsert: true, rawResult: true },
+        {
+          new: true,
+          upsert: true,
+          setDefaultsOnInsert: true,
+          rawResult: true,
+        },
       );
 
       // if a document was updated, that means the room already existed - so need to create a new
