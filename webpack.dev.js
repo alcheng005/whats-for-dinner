@@ -13,6 +13,7 @@ module.exports = merge(common, {
   },
   devtool: 'eval-source-map',
   devServer: {
+    historyApiFallback: true,
     contentBase: path.resolve(__dirname, 'build'),
     hot: true,
     proxy: {
@@ -21,7 +22,8 @@ module.exports = merge(common, {
         target: 'http://localhost:3000',
         ws: true,
       },
-      '/': 'http://localhost:3000',
+      // '/room': 'http://localhost:3000/room',
+      // '/': 'http://localhost:3000',
     },
   },
   plugins: [
