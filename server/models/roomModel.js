@@ -13,6 +13,7 @@ const roomSchema = new Schema({
     default: Date.now,
     expires: 1800, // 30 mins
   },
+  menuOptions: Schema.Types.Mixed,
 });
 
 module.exports = mongoose.model('room', roomSchema);
