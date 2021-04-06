@@ -7,12 +7,12 @@ class Room extends Component {
   }
 
   render() {
-    const { id } = this.props.match.params;
+    const { roomCode } = this.props.match.params;
 
     return (
       <section id="roompage">
         <header>
-          <h2>Room: {id}</h2>
+          <h2>Room: {roomCode}</h2>
         </header>
       </section>
     );
