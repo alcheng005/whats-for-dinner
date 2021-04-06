@@ -21,6 +21,10 @@ body {
   align-items: center;
 }
 
+#emoji {
+  font-size: 5rem;
+}
+
 h1, h2 {
   color: $brown-primary;
   font-family: 'Potta One', 'cursive';
@@ -36,10 +40,12 @@ h3 {
 }
 
 p {
+  font-family: 'Kiwi Maru', serif;
   text-align: center;
 }
 
 input, button {
+  font-family: 'Kiwi Maru', serif;
   color: $brown-quaternary;
   text-align: center;
   box-sizing: border-box;
@@ -53,7 +59,7 @@ input, button {
   box-shadow: 0px 0px 3px 2px;
 }
 
-#roomId {
+#roomCode {
   color: $brown-primary;
   text-align: center;
   box-sizing: border-box;
