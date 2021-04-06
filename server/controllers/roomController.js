@@ -18,7 +18,7 @@ roomController.createRoom = async (req, res, next) => {
       const roomInfo = await Room.findOneAndUpdate(
         { code: roomCode },
         { $set: { code: roomCode } },
-        { new: true, upsert: true, rawResult: true },
+        { new: true, upsert: true, setDefaultsOnInsert: true, rawResult: true },
       );
 
       // if a document was updated, that means the room already existed - so need to create a new
@@ -30,19 +30,54 @@ roomController.createRoom = async (req, res, next) => {
       }
     } catch (err) {
       return next({
-        log: 'ERROR in roomController.createRoom: Something went wrong when checking if Room exists',
+        log: `ERROR in roomController.createRoom: ${err}`,
         status: 502,
-        message: { err: 'Unable to create room' },
+        message: { err: 'Something went wrong - Unable to create a room' },
       });
     }
   }
+
+  console.log('roomCode:', roomCode);
 
   res.locals.roomCode = roomCode;
   return next();
 };
 
-roomController.verifyRoom = (req, res, next) => {
+roomController.verifyRoom = async (req, res, next) => {
+  let roomCode;
+  // console.log('res.locals.roomCode:', res.locals.roomCode);
+  // console.log('req.body.code:', req.body.code);
+  // console.log('req.params.roomCode:', req.params.roomCode);
 
+  // if room code was generated through roomController.createRoom
+  if (res.locals.roomCode) roomCode = res.locals.roomCode;
+  // if room code was sent via 'Join Room' on website homepage
+  else if (req.body.code) {
+    roomCode = req.body.code.toUpperCase();
+    res.locals.roomCode = roomCode;
+  // if room code is entered directly via URL
+  } else {
+    roomCode = req.params.roomCode.toUpperCase();
+    res.locals.roomCode = roomCode;
+  }
+
+  try {
+    const exists = await Room.exists({ code: roomCode });
+
+    console.log('exists:', exists);
+
+    if (!exists) {
+      res.locals.roomCode = null;
+    }
+
+    return next();
+  } catch (err) {
+    return next({
+      log: `ERROR in roomController.verifyRoom: ${err}`,
+      status: 502,
+      message: { err: 'Something went wrong - Unable to join a room' },
+    });
+  }
 };
 
 module.exports = roomController;
