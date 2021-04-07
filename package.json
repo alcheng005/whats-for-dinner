@@ -21,11 +21,13 @@
   },
   "homepage": "https://github.com/alcheng005/whats-for-dinner#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.12.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.2.0",
+    "regenerator-runtime": "^0.13.7",
     "socket.io": "^4.0.0"
   },
   "devDependencies": {
@@ -56,5 +58,8 @@
     "webpack-dev-middleware": "^4.1.0",
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.7.3"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
