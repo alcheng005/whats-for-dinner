@@ -40,6 +40,7 @@ class Home extends Component {
   }
 
   async joinRoom(e) {
+    // prevent form from refreshing page on submit
     e.preventDefault();
 
     const code = document.getElementById('roomCode').value.toUpperCase();
@@ -61,14 +62,14 @@ class Home extends Component {
       });
       const { roomCode } = await res.json();
 
-      // there was an error with the room code returned from server
+      // server found an issue with the room code and returned null
       if (roomCode === null) {
         this.setState({
           ...this.state,
           errorMsg: 'Room not found',
           roomCode: '',
         });
-      // if no error, load up the room that was returned from server
+      // if no issue, load up the room that was returned from server
       } else {
         this.setState({
           ...this.state,
