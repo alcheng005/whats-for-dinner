@@ -1,57 +1,109 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
-const validRoomRegex = new RegExp('^[A-Z]{4}$');
+const { validRoomChars } = require('../../config.js');
+
+const validRoomRegex = new RegExp(`^[${validRoomChars}]{4}$`);
 
 class Home extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      invalidCode: false
+      errorMsg: '',
+      roomCode: '',
     }
 
     this.createRoom = this.createRoom.bind(this);
     this.joinRoom = this.joinRoom.bind(this);
   }
 
-  createRoom(e) {
-    console.log('creating a room');
+  async createRoom(e) {
+    const res = await fetch('http://localhost:3000/room/create-room');
+    const { roomCode } = await res.json();
+
+    // room code returned is a valid room
+    if (validRoomRegex.test(roomCode)) {
+      this.setState({
+        ...this.state,
+        errorMsg: '',
+        roomCode: roomCode,
+      });
+    // room code returned is not a valid room
+    } else {
+      this.setState({
+        ...this.state,
+        errorMsg: 'Room code is invalid',
+        roomCode: '',
+      });
+    }
   }
 
-  joinRoom(e) {
+  async joinRoom(e) {
     e.preventDefault();
 
-    const code = document.getElementById('roomId').value.toUpperCase();
-    
-    console.log('code:', code);
+    const code = document.getElementById('roomCode').value.toUpperCase();
 
+    console.log('joinRoom code:', code);
+
+    // room code is not a valid room
     if (!validRoomRegex.test(code)) {
       this.setState({
         ...this.state,
-        invalidCode: true
+        errorMsg: 'Room code is invalid',
+        roomCode: '',
       });
     } else {
-      console.log('Valid room code');
+      const res = await fetch('http://localhost:3000/room/join-room', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code }),
+      });
+      const { roomCode } = await res.json();
+
+      // there was an error with the room code returned from server
+      if (roomCode === null) {
+        this.setState({
+          ...this.state,
+          errorMsg: 'Room not found',
+          roomCode: '',
+        });
+      // if no error, load up the room that was returned from server
+      } else {
+        this.setState({
+          ...this.state,
+          errorMsg: '',
+          roomCode: roomCode,
+        });
+      }
     }
   }
 
   render() {
+    if (this.state.roomCode !== '') {
+      return <Redirect to={`/room/${this.state.roomCode}`}/>;
+    }
+
     return (
       <section id="homepage">
+        <div id="emoji">🍽️</div>
         <header>
           <h1>What's For Dinner</h1>
         </header>
         <p>Helping family and friends decide where they want to eat</p>
-        <button onClick={this.createRoom}>Create a Room</button>
-        <div id="emoji">🍽️</div>
+        <button id="createRoom" onClick={this.createRoom}>Create Room</button>
+        {/* <div id="emoji">🍽️</div> */}
         <form onSubmit={this.joinRoom}>
-          <input type="text" id="roomId" name="roomId" maxLength="4" placeholder="ROOM CODE"></input>
+          <label htmlFor="roomCode">
+            <input type="text" id="roomCode" data-testid="roomCode" name="roomCode" maxLength="4" placeholder="ROOM CODE"></input>
+          </label>
           <br></br>
-          <input type="submit" id="joinButton" name="joinButton" value="Join a Room"/>
+          <label htmlFor="joinButton">
+            <input type="submit" id="joinButton" data-testid="joinButton" name="joinButton" value="Join Room"/>
+          </label>
         </form>
-        {this.state.invalidCode &&
-          <p>Room code is invalid!</p>
+        {this.state.errorMsg !== '' &&
+          <p>{this.state.errorMsg}</p>
         }
       </section>
     );
