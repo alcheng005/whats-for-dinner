@@ -12,7 +12,7 @@ class Home extends Component {
     this.state = {
       errorMsg: '',
       roomCode: '',
-    }
+    };
 
     this.createRoom = this.createRoom.bind(this);
     this.joinRoom = this.joinRoom.bind(this);
@@ -85,7 +85,7 @@ class Home extends Component {
     }
 
     return (
-      <section id="homepage">
+      <section id="homePage">
         <div id="emoji">🍽️</div>
         <header>
           <h1>What's For Dinner</h1>
