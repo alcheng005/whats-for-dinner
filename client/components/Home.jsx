@@ -18,7 +18,7 @@ class Home extends Component {
     this.joinRoom = this.joinRoom.bind(this);
   }
 
-  async createRoom(e) {
+  async createRoom() {
     const res = await fetch('http://localhost:3000/room/create-room');
     const { roomCode } = await res.json();
 
