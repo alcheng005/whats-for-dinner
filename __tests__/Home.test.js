@@ -1,5 +1,6 @@
 import React from 'react';
-import { getByLabelText, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event'
 
 import Home from '../client/components/Home.jsx';
 
@@ -12,4 +13,21 @@ describe('Home component unit tests', () => {
     getByTestId('roomCode');
     getByTestId('joinButton');
   });
+
+  it('Invalid room code reveals a "Room code is invalid" message', () => {
+    const { getByTestId, getByText } = render(<Home />);
+
+    userEvent.type(getByTestId('roomCode'), 'AA');
+    userEvent.click(getByTestId('joinButton'))
+    getByText('Room code is invalid');
+  });
+
+  // need to start up db for this to work
+  // xit('Room with a code that doesn\'t exist reveals a "Room not found" message', () => {
+  //   const { getByTestId, getByText } = render(<Home />);
+
+  //   userEvent.type(getByTestId('roomCode'), 'BBBB');
+  //   userEvent.click(getByTestId('joinButton'))
+  //   getByText('Room not found');
+  // });
 });
