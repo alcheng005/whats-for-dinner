@@ -11,19 +11,19 @@ module.exports = merge(common, {
     path: path.resolve(__dirname, 'build'),
     publicPath: '/',
   },
-  devtool: 'eval-source-map',
+  devtool: 'eval-source-map', // remove source map warning in browser
   devServer: {
-    historyApiFallback: true,
+    publicPath: '/',
     contentBase: path.resolve(__dirname, 'build'),
     hot: true,
     proxy: {
-      // proxy for websockets to work in devServer
-      '/socket.io': {
+      '/socket.io': { // proxy for websockets to work in devServer
         target: 'http://localhost:3000',
         ws: true,
       },
-      // '/room': 'http://localhost:3000/room',
-      // '/': 'http://localhost:3000',
+      // if invalid room code entered via URL, will redirect to home page instead of loading room
+      // page with invalid code
+      '/': 'http://localhost:3000',
     },
   },
   plugins: [
