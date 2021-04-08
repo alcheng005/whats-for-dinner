@@ -22,7 +22,7 @@ describe('Home component unit tests', () => {
     getByText('Room code is invalid');
   });
 
-  // need to start up db for this to work
+  // need to look into mocking
   // xit('Room with a code that doesn\'t exist reveals a "Room not found" message', () => {
   //   const { getByTestId, getByText } = render(<Home />);
 
