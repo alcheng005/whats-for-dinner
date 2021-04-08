@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 /* eslint-disable no-undef */
 const dbHandler = require('../server/dbHandler.js');
 const Room = require('../server/models/roomModel.js');
@@ -16,7 +20,7 @@ afterEach(async () => await dbHandler.clearDatabase()); // eslint-disable-line n
 afterAll(async () => await dbHandler.closeDatabase()); // eslint-disable-line no-return-await
 
 describe('roomController unit tests', () => {
-  it('roomController.createRoom should store a valid room code on res.locals.roomCode', async (done) => {
+  it('createRoom should store a valid room code on res.locals.roomCode', async (done) => {
     const mockReq = {};
     const mockRes = {
       locals: {},
@@ -28,7 +32,7 @@ describe('roomController unit tests', () => {
     done();
   });
 
-  it('roomController.verifyRoom should store \'null\' on res.locals.roomCode if room does not exist in database', async (done) => {
+  it('verifyRoom should store \'null\' on res.locals.roomCode if room does not exist in database', async (done) => {
     const mockReq = {};
     const mockRes = {
       locals: { roomCode: 'BBBB' },
@@ -40,7 +44,7 @@ describe('roomController unit tests', () => {
     done();
   });
 
-  it('roomController.verifyRoom should store a room code on res.locals.roomCode if res.locals.roomCode exists and the room exists in database', async (done) => {
+  it('verifyRoom should store a room code on res.locals.roomCode if res.locals.roomCode exists and the room exists in database', async (done) => {
     const mockReq = {};
     const mockRes = {
       locals: { roomCode: 'BBBB' },
@@ -54,7 +58,7 @@ describe('roomController unit tests', () => {
     done();
   });
 
-  it('roomController.verifyRoom should store a room code on res.locals.roomCode if req.body.code exists and the room exists in database', async (done) => {
+  it('verifyRoom should store a room code on res.locals.roomCode if req.body.code exists and the room exists in database', async (done) => {
     const mockReq = {
       body: { code: 'CCCC' },
     };
@@ -70,7 +74,7 @@ describe('roomController unit tests', () => {
     done();
   });
 
-  it('roomController.verifyRoom should store a room code on res.locals.roomCode if req.params.roomCode exists and the room exists in database', async (done) => {
+  it('verifyRoom should store a room code on res.locals.roomCode if req.params.roomCode exists and the room exists in database', async (done) => {
     const mockReq = {
       body: {},
       params: { roomCode: 'DDDD' },
