@@ -24,6 +24,13 @@ router.post('/join-room',
   },
 );
 
+// router.post('/check-phase',
+//   roomController.checkPhase,
+//   (req, res) => {
+//     res.status(200).json({});
+//   },
+// );
+
 // need two router.get('/:roomCode', ...) since don't want to compile webpack in prod env
 if (process.env.NODE_ENV === 'production') {
   router.get('/:roomCode',

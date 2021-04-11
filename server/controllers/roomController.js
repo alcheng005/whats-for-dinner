@@ -3,6 +3,12 @@ const { validRoomChars, roomCodeLength } = require('../../config.js');
 
 const roomController = {};
 
+// roomController.checkPhase = async (req, res, next) => {
+//   const roomCode = req.body.code.toUpperCase();
+
+  
+// };
+
 roomController.createRoom = async (req, res, next) => {
   const validCharsLength = validRoomChars.length;
   let roomCode = '';
