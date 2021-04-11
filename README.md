@@ -1,8 +1,20 @@
 <h1 align="center">🍽️ What's For Dinner 🍽️</h1>
 
-*<h4 align="center">An app to answer the age-old question, "Where do you want to eat?"</h4>*
+*<h4 align="center">A web app to answer the age-old question, "Where do you want to eat?"</h4>*
 
-# Stretch Features
+# Technologies Used
+- JavaScript
+- React (Router)
+- Node.js
+- Express
+- Socket.io
+- MongoDB/Mongoose
+- Jest
+- Testing Library (React, User Event)
+- Webpack
+- HTML/CSS/SCSS
+
+# Features to Implement
 - "Names" feature to show who is in the room
 - "Timer" feature during voting phase to speed up voting process
 - "Quick Add" feature that adds popular items (i.e. "fast food restaurants", "popular cuisines")
