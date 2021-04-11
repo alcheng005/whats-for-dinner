@@ -1,5 +1,5 @@
 const Room = require('../models/roomModel.js');
-const { validRoomChars } = require('../../config.js');
+const { validRoomChars, roomCodeLength } = require('../../config.js');
 
 const roomController = {};
 
@@ -9,7 +9,7 @@ roomController.createRoom = async (req, res, next) => {
   let invalidCode = true;
 
   while (invalidCode) {
-    for (let i = 0; i < 4; i += 1) {
+    for (let i = 0; i < roomCodeLength; i += 1) {
       roomCode += validRoomChars.charAt(Math.floor(Math.random() * validCharsLength));
     }
 

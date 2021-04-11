@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
-const { validRoomChars } = require('../../config.js');
+const { validRoomChars, roomCodeLength } = require('../../config.js');
 
-const validRoomRegex = new RegExp(`^[${validRoomChars}]{4}$`);
+const validRoomRegex = new RegExp(`^[${validRoomChars}]{${roomCodeLength}}$`);
 
 class Home extends Component {
   constructor(props) {
