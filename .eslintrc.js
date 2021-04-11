@@ -3,5 +3,4 @@ module.exports = {
   rules: {
     'linebreak-style': ['error', 'windows'],
   },
-  parser: 'babel-eslint',
 };
