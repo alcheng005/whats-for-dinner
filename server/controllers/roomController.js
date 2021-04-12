@@ -3,11 +3,23 @@ const { validRoomChars, roomCodeLength } = require('../../config.js');
 
 const roomController = {};
 
-// roomController.checkPhase = async (req, res, next) => {
-//   const roomCode = req.body.code.toUpperCase();
+roomController.checkPhase = async (req, res, next) => {
+  const roomCode = req.body.code.toUpperCase();
 
-  
-// };
+  try {
+    const roomInfo = await Room.findOne({ code: roomCode });
+    const { phase } = roomInfo;
+
+    res.locals.curPhase = phase;
+    return next();
+  } catch (err) {
+    return next({
+      log: `ERROR in roomController.checkPhase: ${err}`,
+      status: 502,
+      message: { err: 'Something went wrong - Unable to check phase of room' },
+    });
+  }
+};
 
 roomController.createRoom = async (req, res, next) => {
   const validCharsLength = validRoomChars.length;
