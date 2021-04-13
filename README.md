@@ -11,6 +11,7 @@
 - MongoDB/Mongoose
 - Jest
 - Testing Library (React, User Event)
+- Travis CI
 - Webpack
 - HTML/CSS/SCSS
 
