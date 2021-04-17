@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const { mongoURI } = require('../settings.secret.js');
 
 const mongod = new MongoMemoryServer();
 
@@ -23,6 +22,8 @@ module.exports.connect = async () => {
     const testDbURI = await mongod.getUri();
     activeURI = testDbURI;
   } else {
+    // eslint-disable-next-line global-require
+    const { mongoURI } = require('../settings.secret.js');
     activeURI = mongoURI;
   }
 
