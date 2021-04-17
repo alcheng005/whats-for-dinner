@@ -17,7 +17,9 @@ module.exports.connect = async () => {
   };
   let activeURI;
 
-  if (process.env.NODE_ENV === 'test') {
+  if (process.env.TRAVIS_MONGO_URI) {
+    activeURI = process.env.TRAVIS_MONGO_URI;
+  } else if (process.env.NODE_ENV === 'test') {
     const testDbURI = await mongod.getUri();
     activeURI = testDbURI;
   } else {
