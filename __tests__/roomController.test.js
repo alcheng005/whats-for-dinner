@@ -2,6 +2,8 @@
  * @jest-environment node
  */
 
+require('regenerator-runtime/runtime'); // for async/await in testing
+
 /* eslint-disable no-undef */
 const dbHandler = require('../server/dbHandler.js');
 const Room = require('../server/models/roomModel.js');

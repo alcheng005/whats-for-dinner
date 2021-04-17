@@ -1,3 +1,4 @@
+import "regenerator-runtime/runtime.js"; // for async/await in testing
 import React from 'react';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
