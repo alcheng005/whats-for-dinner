@@ -1,5 +1,5 @@
 const Room = require('../models/roomModel.js');
-const { validRoomChars, roomCodeLength } = require('../../config.js');
+const { validRoomChars, roomCodeLength } = require('../../settings.js');
 
 const roomController = {};
 

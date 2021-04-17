@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const { mongoURI } = require('../config.js');
+const { mongoURI } = require('../settings.secret.js');
 
 const mongod = new MongoMemoryServer();
 

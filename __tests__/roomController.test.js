@@ -6,7 +6,7 @@
 const dbHandler = require('../server/dbHandler.js');
 const Room = require('../server/models/roomModel.js');
 const roomController = require('../server/controllers/roomController.js');
-const { validRoomChars } = require('../config.js');
+const { validRoomChars } = require('../settings.js');
 
 const validRoomRegex = new RegExp(`^[${validRoomChars}]{4}$`);
 
